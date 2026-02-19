@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Trash2, Copy, RefreshCw, FileText, Shield, UserSearch, Newspaper, ShieldPlus, Lock } from "lucide-react";
+import { Plus, Trash2, Copy, RefreshCw, FileText, Shield, UserSearch, Newspaper, ShieldPlus, Lock, TriangleAlert } from "lucide-react";
 import { toast } from "sonner";
 
 const patentes = [
@@ -175,6 +175,10 @@ ${gerarTextoMateriais()}`;
 
         {/* Identificação */}
         <Card>
+          <p className="flex items-center gap-2 text-sm text-red-700 bg-red-50 border border-red-200 p-2 rounded-md">
+            <TriangleAlert className="w-4 h-4 text-red-600" />
+            Atenção: Campos sem informação devem permanecer em branco.
+          </p>
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold text-primary flex items-center gap-2">
               <FileText className="w-4 h-4" />
@@ -206,7 +210,7 @@ ${gerarTextoMateriais()}`;
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold text-primary flex items-center gap-2">
               <UserSearch className="w-4 h-4" />
-            Equipe
+              Equipe
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -249,7 +253,7 @@ ${gerarTextoMateriais()}`;
 
         {/* Ocorrência */}
         <Card>
-           <CardHeader className="pb-3">
+          <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold text-primary flex items-center gap-2">
               <Newspaper className="w-4 h-4" />
               Ocorrência
