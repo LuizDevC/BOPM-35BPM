@@ -254,10 +254,6 @@ RESPONSÁVEL (CHEFE DE BARCA): ${formatarPessoa(form.encarregadoPatente, form.en
                 </div>
               </div>
             ))}
-            <div className="space-y-1">
-              <Label>Supervisor Presente na Ocorrência</Label>
-              <Input value={form.supervisor} onChange={(e) => set("supervisor", e.target.value)} placeholder="Nome do supervisor" />
-            </div>
           </CardContent>
         </Card>
 
