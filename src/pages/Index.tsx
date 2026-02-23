@@ -418,6 +418,10 @@ RESPONSÁVEL (CHEFE DE BARCA): ${formatarPessoa(form.encarregadoPatente, form.en
           </>
         )}
       </main>
+      {/* Assinatura */}
+            <div className="text-center text-xs text-muted-foreground mt-4">
+              Desenvolvido e assinado por <span className="font-semibold">Luiz Ricardo</span>
+            </div>
     </div>
   );
 }
