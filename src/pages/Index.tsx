@@ -6,12 +6,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Trash2, Copy, RefreshCw, FileText, Shield, UserSearch, Newspaper, ShieldPlus, Lock, TriangleAlert } from "lucide-react";
+import { Plus, Trash2, Copy, RefreshCw, FileText, Shield, UserSearch, Newspaper, ShieldPlus, Lock, TriangleAlert, User } from "lucide-react";
 import { toast } from "sonner";
 
 const patentes = [
   "Soldado 2ª Classe PM",
   "Soldado 1ª Classe PM",
+  "Cabo PM",
+  "3º Sargento PM",
+  "2º Sargento PM",
+  "1º Sargento PM",
+  "Subtenente PM",
+  "2º Tenente PM",
+  "1º Tenente PM",
+  "Capitão PM",
+];
+
+const patentesComando = [
   "Cabo PM",
   "3º Sargento PM",
   "2º Sargento PM",
@@ -34,13 +45,19 @@ interface Material {
 }
 
 const hoje = new Date().toLocaleDateString("pt-BR");
+const agora = new Date();
+
+const horas = String(agora.getHours()).padStart(2, "0");
+const minutos = String(agora.getMinutes()).padStart(2, "0");
+
+const horarioAtual = `${horas}:${minutos}`;
 
 const estadoInicial = {
   numero: "",
   data: hoje,
-  horario: "",
+  horario: horarioAtual,
   prefixo: "",
-  encarregadoPatente: patentes[1],
+  encarregadoPatente: patentesComando[0],
   encarregadoNome: "",
   motoristaPatente: patentes[0],
   motoristaNome: "",
@@ -51,6 +68,9 @@ const estadoInicial = {
   supervisor: "",
   local: "",
   delegado: "",
+  nomeIndividuo: "",
+  rg: "",
+  sacoEvd: "",
   natureza: "",
   apresentacao: "",
   descricao: "",
@@ -98,52 +118,45 @@ export default function Index() {
     return linhas.length ? linhas.join("\n") : "Sem Alteração.";
   };
 
-const gerarTextoMateriais = () => {
-  const linhas = materiais
-    .filter((m) => m.quantidade.trim() && m.descricao.trim())
-    .map((m) => `${m.quantidade.trim()}x ${m.descricao.trim()}`);
+  const gerarTextoMateriais = () => {
+    const linhas = materiais
+      .filter((m) => m.quantidade.trim() && m.descricao.trim())
+      .map((m) => `${m.quantidade.trim()}x ${m.descricao.trim()}`);
 
-  return linhas.length ? linhas.join("\n") : "Sem Alteração.";
-};
+    return linhas.length ? linhas.join("\n") : "Sem Alteração.";
+  };
 
   const gerarBopm = () => {
     const texto = `BOPM nº ${form.numero}
 
+EQUIPE EMPENHADA
+
+UNIDADE: ${form.prefixo}
+COMANDANTE DE EQUIPE: ${formatarPessoa(form.encarregadoPatente, form.encarregadoNome)}
+MOTORISTA: ${formatarPessoa(form.motoristaPatente, form.motoristaNome)}
+1° AUXILIZAR: ${formatarPessoa(form.terceiroPatente, form.terceiroNome)}
+2° AUXILIZAR: ${formatarPessoa(form.quartoPatente, form.quartoNome)}
+
+INFORMAÇÕES DA OCORRÊNCIA
+
 DATA: ${form.data}
 HORÁRIO: ${form.horario}
+LOCAL: ${form.local.trim() || "Sem Alteração."}
 
-PREFIXO: ${form.prefixo}
+IDENTIFICAÇÃO DO ENVOLVIDO
 
-ENCARREGADO: ${formatarPessoa(form.encarregadoPatente, form.encarregadoNome)}
-MOTORISTA: ${formatarPessoa(form.motoristaPatente, form.motoristaNome)}
-TERCEIRO HOMEM: ${formatarPessoa(form.terceiroPatente, form.terceiroNome)}
-QUARTO HOMEM: ${formatarPessoa(form.quartoPatente, form.quartoNome)}
+NOME: ${form.nomeIndividuo.trim() || "Sem Alteração."}
+RG: ${form.rg.trim() || "Sem Alteração."}
+SACO DE EVIDÊNCIAS N°: ${form.sacoEvd.trim() || "Sem Alteração."}
+ARTIGOS: ${form.natureza.trim() || "Sem Alteração."}
+ILÍCITOS: 
+${gerarTextoMateriais()}
 
-SUPERVISOR PRESENTE NA OCORRÊNCIA:
-${form.supervisor.trim() || "Sem Alteração."}
-
-ÁREA: CPA/M-8
-
-APRESENTAÇÃO DOS FATOS:
-${form.apresentacao.trim() || "Sem Alteração."}
-
-DELEGADO DE PLANTÃO:
-${form.delegado.trim() || "Sem Alteração."}
-
-LOCAL:
-${form.local.trim() || "Sem Alteração."}
-
-APOIOS:
-${gerarTextoApoios()}
-
-NATUREZA DOS FATOS:
-${form.natureza.trim() || "Sem Alteração."}
-
-DESCRIÇÃO DOS FATOS:
+RELATO DA OCORRÊNCIA:
 ${form.descricao.trim() || "Sem Alteração."}
 
-MATERIAL APREENDIDO:
-${gerarTextoMateriais()}`;
+RESPONSÁVEL (CHEFE DE BARCA): ${formatarPessoa(form.encarregadoPatente, form.encarregadoNome)}
+`;
 
     setResultado(texto);
   };
@@ -167,7 +180,7 @@ ${gerarTextoMateriais()}`;
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center gap-3">
           <Shield className="w-8 h-8" />
           <div>
-            <h1 className="text-xl font-bold tracking-wide">Gerador de BOPM — CAEP</h1>
+            <h1 className="text-xl font-bold tracking-wide">Gerador de BOPM — 35 BPM</h1>
             <p className="text-sm opacity-75">Boletim de Ocorrência Policial Militar</p>
           </div>
         </div>
@@ -192,17 +205,10 @@ ${gerarTextoMateriais()}`;
               <Label>Número do BOPM</Label>
               <Input value={form.numero} onChange={(e) => set("numero", e.target.value)} placeholder="Ex: 1234" />
             </div>
+
             <div className="space-y-1">
-              <Label>Data</Label>
-              <Input value={form.data} onChange={(e) => set("data", e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label>Horário</Label>
-              <Input value={form.horario} onChange={(e) => set("horario", e.target.value)} placeholder="Ex: 14h30" />
-            </div>
-            <div className="space-y-1">
-              <Label>Prefixo</Label>
-              <Input value={form.prefixo} onChange={(e) => set("prefixo", e.target.value)} placeholder="Ex: E-M09030" />
+              <Label>Unidade</Label>
+              <Input value={form.prefixo} onChange={(e) => set("prefixo", e.target.value)} placeholder="Ex: 92221" />
             </div>
           </CardContent>
         </Card>
@@ -212,15 +218,15 @@ ${gerarTextoMateriais()}`;
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold text-primary flex items-center gap-2">
               <UserSearch className="w-4 h-4" />
-              Equipe
+              Equipe Empenhada
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {[
-              { label: "Encarregado", patenteKey: "encarregadoPatente", nomeKey: "encarregadoNome" },
+              { label: "Comandante de equipe", patenteKey: "encarregadoPatente", nomeKey: "encarregadoNome" },
               { label: "Motorista", patenteKey: "motoristaPatente", nomeKey: "motoristaNome" },
-              { label: "3º Homem", patenteKey: "terceiroPatente", nomeKey: "terceiroNome" },
-              { label: "4º Homem", patenteKey: "quartoPatente", nomeKey: "quartoNome" },
+              { label: "1° auxiliar", patenteKey: "terceiroPatente", nomeKey: "terceiroNome" },
+              { label: "2° auxiliar", patenteKey: "quartoPatente", nomeKey: "quartoNome" },
             ].map(({ label, patenteKey, nomeKey }) => (
               <div key={label} className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
                 <div className="space-y-1">
@@ -230,8 +236,10 @@ ${gerarTextoMateriais()}`;
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {patentes.map((p) => (
-                        <SelectItem key={p} value={p}>{p}</SelectItem>
+                      {(label === "Comandante de equipe" ? patentesComando : patentes).map((p) => (
+                        <SelectItem key={p} value={p}>
+                          {p}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -264,29 +272,41 @@ ${gerarTextoMateriais()}`;
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1">
+                <Label>Data</Label>
+                <Input value={form.data} onChange={(e) => set("data", e.target.value)} />
+              </div>
+              <div className="space-y-1">
+                <Label>Horário</Label>
+                <Input value={form.horario} onChange={(e) => set("horario", e.target.value)} placeholder="Ex: 14h30" />
+              </div>
+              <div className="sm:col-span-2 space-y-1">
                 <Label>Local</Label>
                 <Input value={form.local} onChange={(e) => set("local", e.target.value)} placeholder="Endereço da ocorrência" />
               </div>
+
+              <CardTitle className="text-base font-semibold text-primary flex items-center gap-2">
+                <User className="w-4 h-4" />
+                Identificação do envolvido
+              </CardTitle>
+              <div className="sm:col-span-2 space-y-1">
+                <Label>Nome</Label>
+                <Input value={form.nomeIndividuo} onChange={(e) => set("nomeIndividuo", e.target.value)} placeholder="Nome do indivíduo" />
+              </div>
               <div className="space-y-1">
-                <Label>Delegado de Plantão</Label>
-                <Input value={form.delegado} onChange={(e) => set("delegado", e.target.value)} placeholder="Nome do delegado" />
+                <Label>RG</Label>
+                <Input value={form.rg} onChange={(e) => set("rg", e.target.value)} placeholder="Ex: GGG00000" />
+              </div>
+              <div className="space-y-1">
+                <Label>Saco de evidências</Label>
+                <Input value={form.sacoEvd} onChange={(e) => set("sacoEvd", e.target.value)} placeholder="Ex: EVD-202602200000" />
               </div>
               <div className="sm:col-span-2 space-y-1">
-                <Label>Natureza dos Fatos</Label>
-                <Input value={form.natureza} onChange={(e) => set("natureza", e.target.value)} placeholder="Ex: Roubo, Flagrante..." />
+                <Label>Artigos</Label>
+                <Input value={form.natureza} onChange={(e) => set("natureza", e.target.value)} placeholder="Ex: Art 157, Art 155, Art 171..." />
               </div>
             </div>
             <div className="space-y-1">
-              <Label>Apresentação dos Fatos</Label>
-              <Textarea
-                value={form.apresentacao}
-                onChange={(e) => set("apresentacao", e.target.value)}
-                rows={3}
-                placeholder="Descreva brevemente a apresentação dos fatos..."
-              />
-            </div>
-            <div className="space-y-1">
-              <Label>Descrição dos Fatos</Label>
+              <Label>Relato da ocorrência</Label>
               <Textarea
                 value={form.descricao}
                 onChange={(e) => set("descricao", e.target.value)}
@@ -297,7 +317,7 @@ ${gerarTextoMateriais()}`;
           </CardContent>
         </Card>
 
-        {/* Apoios */}
+        {/* Apoios 
         <Card>
           <CardHeader className="pb-3 flex flex-row items-center justify-between">
             <CardTitle className="text-base font-semibold text-primary flex items-center gap-2">
@@ -326,6 +346,7 @@ ${gerarTextoMateriais()}`;
             ))}
           </CardContent>
         </Card>
+*/}
 
         {/* Material Apreendido */}
         <Card>
