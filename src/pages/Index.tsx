@@ -279,7 +279,7 @@ ${form.descricao.trim() || "Sem Alteração."}
             </div>
             <div>
               <h1 className="text-2xl font-black tracking-[0.15em] uppercase text-white leading-none">
-                35º BPM <span className="text-red-600">//</span> COMMAND
+                35º BPM <span className="text-red-600">//</span> CHOQUE
               </h1>
               <div className="flex items-center gap-2 mt-1">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_5px_rgba(34,197,94,0.5)]" />
@@ -315,9 +315,7 @@ ${form.descricao.trim() || "Sem Alteração."}
             </span>
           </div>
           <div className="hidden md:flex items-center gap-3 font-mono opacity-60 text-[10px]">
-            <span>STB: ONLINE</span>
-            <span>|</span>
-            <span>VER: 2.4.0</span>
+
           </div>
         </div>
 

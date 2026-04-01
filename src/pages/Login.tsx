@@ -52,7 +52,7 @@ export default function Login() {
     <div className="min-h-screen bg-[#0B0F1A] flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans selection:bg-red-600 selection:text-white">
       {/* BACKGROUND GRID OVERLAY */}
       <div className="fixed inset-0 cyber-grid pointer-events-none opacity-20" />
-      
+
       {/* TOP DECORATION */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-50" />
 
@@ -67,7 +67,7 @@ export default function Login() {
       </div>
 
       <div className="w-full max-w-md space-y-10 relative z-10 animate-in fade-in zoom-in-95 duration-700">
-        
+
         {/* LOGO AREA */}
         <div className="flex flex-col items-center gap-6 text-center">
           <div className="relative group">
@@ -76,10 +76,10 @@ export default function Login() {
             </div>
             <div className="absolute -inset-2 bg-red-600/10 blur-xl rounded-full -z-10 animate-pulse" />
           </div>
-          
+
           <div className="space-y-2">
             <h1 className="text-3xl font-black uppercase tracking-[0.25em] text-white leading-none">
-              35º BPM <span className="text-red-600">//</span> AUTH
+              35º BPM <span className="text-red-600">//</span> ADMINISTRATIVO
             </h1>
             <div className="flex items-center justify-center gap-3">
               <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-red-600" />
@@ -92,7 +92,7 @@ export default function Login() {
         {/* LOGIN CARD */}
         <Card className="hud-card border-red-900/30 overflow-hidden group">
           <div className="absolute top-0 right-0 p-2 text-red-600/10 font-black text-6xl select-none group-hover:text-red-600/20 transition-colors pointer-events-none">SEC_ENTRY</div>
-          
+
           <CardHeader className="space-y-2 text-center pb-8 border-b border-red-900/20 relative z-10">
             <CardTitle className="text-sm font-black uppercase flex items-center justify-center gap-3 text-white tracking-[0.3em]">
               <Lock className="w-4 h-4 text-red-600" /> Protocolo de Acesso
@@ -117,7 +117,7 @@ export default function Login() {
                   required
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="password" className={labelClass}>
                   <span className="w-1 h-3 bg-[#D4AF37] rounded-full" />
@@ -136,9 +136,9 @@ export default function Login() {
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 w-2 h-2 bg-red-600 rounded-full animate-pulse opacity-50" />
                 </div>
               </div>
-              
-              <Button 
-                type="submit" 
+
+              <Button
+                type="submit"
                 className="w-full tactical-btn bg-red-600 hover:bg-red-500 text-white font-black uppercase tracking-[0.2em] mt-2 py-7 rounded-xl shadow-[0_0_20px_rgba(185,28,28,0.4)] border border-red-500/50 group/btn"
                 disabled={loading}
               >
@@ -160,7 +160,7 @@ export default function Login() {
           <CardFooter className="flex justify-center border-t border-red-900/10 py-6 relative z-10">
             <div className="flex flex-col items-center gap-2">
               <span className="text-[8px] text-gray-600 font-black uppercase tracking-[0.5em]">
-                System Status: encrypted
+
               </span>
               <div className="flex gap-2">
                 <div className="w-1 h-1 bg-green-500 rounded-full animate-pulse" />
@@ -174,7 +174,7 @@ export default function Login() {
         {/* FOOTER INFO */}
         <div className="text-center space-y-4">
           <p className="text-[9px] text-[#D4AF37] font-black uppercase tracking-[0.3em] opacity-40">
-            35º Batalhão de Polícia Militar — Comando & Controle
+            35º Batalhão de Polícia Militar
           </p>
           <div className="w-12 h-[1px] bg-red-900/30 mx-auto" />
         </div>

@@ -324,7 +324,7 @@ export default function Oficiais() {
             <div className="flex items-center gap-3 bg-red-950/20 px-4 py-2 rounded-lg border border-red-900/30 shadow-inner relative overflow-hidden group">
               <div className="absolute inset-0 bg-red-600/5 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               <span className="text-[9px] uppercase font-black text-red-500 tracking-[0.2em] opacity-80 hidden sm:inline">
-                ID_PERFIL:
+                TIPO DE ACESSO:
               </span>
               <span className="text-xs font-black text-[#D4AF37] uppercase tracking-widest group-hover:text-white transition-colors">
                 {profile?.role || "Usuário"}
@@ -346,7 +346,7 @@ export default function Oficiais() {
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-10 space-y-10 relative z-10">
-        
+
         {/* ALERTA DE PERMISSÃO */}
         {!isAdmin && (
           <div className="bg-red-950/20 text-red-500 p-5 rounded-xl border border-red-600/40 flex items-center gap-4 text-xs shadow-[0_0_20px_rgba(185,28,28,0.1)] backdrop-blur-md relative overflow-hidden">
@@ -486,10 +486,10 @@ export default function Oficiais() {
             <Table>
               <TableHeader className="bg-red-950/20">
                 <TableRow className="border-red-900/30 hover:bg-transparent">
-                  <TableHead className="font-black text-red-500 tracking-[0.2em] uppercase text-[10px] py-6 pl-8 w-[40%]">Nome de Guerra // ID</TableHead>
+                  <TableHead className="font-black text-red-500 tracking-[0.2em] uppercase text-[10px] py-6 pl-8 w-[40%]">Nome</TableHead>
                   <TableHead className="font-black text-red-500 tracking-[0.2em] uppercase text-[10px]">Patente</TableHead>
                   <TableHead className="font-black text-red-500 tracking-[0.2em] uppercase text-[10px]">Status Operacional</TableHead>
-                  <TableHead className="text-right font-black text-red-500 tracking-[0.2em] uppercase text-[10px] pr-8">Sistema</TableHead>
+                  <TableHead className="text-right font-black text-red-500 tracking-[0.2em] uppercase text-[10px] pr-8">Ação</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -516,8 +516,8 @@ export default function Oficiais() {
                   </TableRow>
                 ) : (
                   oficiais.map((oficial, index) => (
-                    <TableRow 
-                      key={oficial.id} 
+                    <TableRow
+                      key={oficial.id}
                       className={`border-red-900/10 transition-all hover:bg-red-900/5 group/row ${index % 2 === 0 ? 'bg-red-950/5' : ''}`}
                     >
                       <TableCell className="font-black uppercase tracking-[0.1em] text-white pl-8 py-5 flex items-center gap-3">
@@ -638,7 +638,7 @@ export default function Oficiais() {
       <Dialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
         <DialogContent className="sm:max-w-md bg-[#0B0F1A] border-red-600/50 text-[#F9FAFB] shadow-[0_0_100px_rgba(220,38,38,0.2)] rounded-xl backdrop-blur-3xl overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-red-600 animate-pulse" />
-          
+
           <DialogHeader className="border-b border-red-900/30 pb-6 mt-2">
             <DialogTitle className="flex items-center gap-4 uppercase font-black tracking-[0.2em] text-red-500 text-xl">
               <div className="p-2 bg-red-600/10 rounded-lg border border-red-600/30">
