@@ -142,7 +142,7 @@ function gerarEVD(sequencia: number): string {
 }
 
 export default function Index() {
-  const { user } = useAuth();
+  const { user, loading, accessToken, profile } = useAuth();
   const [form, setForm] = useState(estadoInicial);
   const [buscaArtigo, setBuscaArtigo] = useState("");
   const [apoios, setApoios] = useState<Apoio[]>([]);
@@ -154,9 +154,7 @@ export default function Index() {
   useEffect(() => {
     const fetchOficiais = async () => {
       try {
-        const data = await oficiaisService.listarOficiais();
-
-        // Filtra de forma mais flexível para evitar problemas de maiusculas/minusculas
+        const data = await oficiaisService.listarOficiais(accessToken);
         const ativos = data.filter(o => o.status?.toLowerCase().trim() === "ativa" || !o.status);
         const sortedAtivos = [...ativos].sort((a, b) => a.nome.localeCompare(b.nome));
         setOficiais(sortedAtivos);
@@ -166,10 +164,12 @@ export default function Index() {
       }
     };
 
-    fetchOficiais();
+    if (accessToken) {
+      fetchOficiais();
+    }
 
     const onFocus = () => {
-      if (user) {
+      if (accessToken) {
         setTimeout(() => {
           fetchOficiais();
         }, 500);
@@ -178,7 +178,7 @@ export default function Index() {
 
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
-  }, []);
+  }, [accessToken]);
 
   const set = (key: string, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -353,7 +353,6 @@ ${form.descricao.trim() || "Sem Alteração."}
                 </Label>
                 <Select value={form.prefixo} onValueChange={(value) => {
                   set("prefixo", value);
-                  setTimeout(() => { document.body.style.pointerEvents = "auto"; }, 100);
                 }}>
                   <SelectTrigger className={`${inputClass} border-red-900/20`}>
                     <SelectValue placeholder="SELECIONAR UNIDADE" />
@@ -405,7 +404,6 @@ ${form.descricao.trim() || "Sem Alteração."}
                           set(patenteKey, selectedOficial.patente);
                         }
                       }
-                      setTimeout(() => { document.body.style.pointerEvents = "auto"; }, 100);
                     }}
                   >
                     <SelectTrigger className={`${inputClass} border-red-900/20 hover:border-red-600/40 transition-colors uppercase`}>

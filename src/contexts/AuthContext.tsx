@@ -82,30 +82,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     bootstrap();
 
-    // Listener para mudanças no estado de autenticação
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (!mounted) return;
 
-      if (!mounted) return;
+        console.log("Auth Event:", event);
 
-      console.log(`Auth Event: ${event}`);
-
-      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
         const sessionUser = session?.user ?? null;
+
         setUser(sessionUser);
-        setAccessToken(session?.access_token ?? null); // 👈 AQUI
+        setAccessToken(session?.access_token ?? null);
 
-        if (sessionUser) {
-          await fetchProfile(sessionUser.id);
+        if (!sessionUser) {
+          setProfile(null);
+          setLoading(false);
+          return;
         }
-      }
 
-      if (event === "SIGNED_OUT") {
-        setUser(null);
-        setProfile(null);
-        setLoading(false);
-        setAccessToken(null);
+        fetchProfile(sessionUser.id)
+          .catch((err) => {
+            console.error("Erro ao recarregar profile no onAuthStateChange:", err);
+            setProfile(null);
+          })
+          .finally(() => {
+            if (mounted) setLoading(false);
+          });
       }
-    });
+    );
 
     return () => {
       mounted = false;
@@ -117,6 +120,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
+    setAccessToken(null);
+    setLoading(false);
   };
 
   return (
