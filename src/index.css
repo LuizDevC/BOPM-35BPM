@@ -1,50 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 20% 96%;
-    --foreground: 215 25% 15%;
+    --font-sans: 'Rajdhani', sans-serif;
+    --background: 222 47% 6%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card: 222 47% 8%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover: 222 47% 8%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 213 75% 28%;
+    --primary: 0 84% 41%; /* #B91C1C - Vermelho Choque */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 20% 92%;
-    --secondary-foreground: 215 25% 15%;
+    --secondary: 45 66% 52%; /* #D4AF37 - Dourado Militar */
+    --secondary-foreground: 222 47% 6%;
 
-    --muted: 210 20% 92%;
-    --muted-foreground: 215 16% 46%;
+    --muted: 222 47% 15%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 213 75% 28%;
+    --accent: 0 100% 50%; /* #FF0000 - Neon Red */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 122 39% 49%;
+    --success: 142 70% 45%;
     --success-foreground: 0 0% 100%;
 
-    --border: 214 20% 85%;
-    --input: 214 20% 85%;
-    --ring: 213 75% 28%;
+    --border: 222 47% 12%;
+    --input: 222 47% 12%;
+    --ring: 0 84% 41%;
 
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --radius: 1rem;
   }
 }
 
@@ -54,6 +48,68 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    background-image: 
+      linear-gradient(rgba(185, 28, 28, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(185, 28, 28, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center center;
+    position: relative;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.3;
+  }
+}
+
+@layer components {
+  .cyber-grid {
+    background-image: 
+      linear-gradient(rgba(212, 175, 55, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212, 175, 55, 0.02) 1px, transparent 1px);
+    background-size: 10px 10px;
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 15px rgba(185, 28, 28, 0.3);
+  }
+
+  .neon-border {
+    border: 1px solid rgba(185, 28, 28, 0.5);
+    box-shadow: 0 0 10px rgba(185, 28, 28, 0.2);
+  }
+
+  .hud-card {
+    @apply bg-[#0B0F1A]/80 backdrop-blur-md border border-red-900/30 rounded-2xl shadow-2xl transition-all;
+    box-shadow: inset 0 0 20px rgba(185, 28, 28, 0.05), 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .hud-card:hover {
+    @apply border-red-600/50;
+    box-shadow: inset 0 0 25px rgba(185, 28, 28, 0.1), 0 15px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  .tactical-btn {
+    @apply relative overflow-hidden transition-all active:scale-95 uppercase tracking-widest font-bold;
+  }
+
+  .tactical-btn::before {
+    content: "";
+    @apply absolute inset-0 bg-white/10 opacity-0 transition-opacity;
+  }
+
+  .tactical-btn:hover::before {
+    @apply opacity-100;
   }
 }

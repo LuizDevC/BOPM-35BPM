@@ -7,18 +7,49 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependências
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+dist/
+dist-ssr/
 *.local
 
-# Editor directories and files
+# Testes e Cobertura
+coverage/
+.nyc_output
+
+# Variáveis de Ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.staging.local
+
+# IDEs e Editores
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+!.vscode/settings.json
+!.vscode/launch.json
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+.DS_Store
+
+# Vite / Bun / Outros
+.vite/
+.bun/
+bun.lockb
+!bun.lockb # Remova o comentário se quiser manter o lock do bun
+
+# Outras ferramentas
+.eslintcache
+.stylelintcache
+.parcel-cache
+.turbo/
