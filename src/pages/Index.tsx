@@ -164,16 +164,12 @@ export default function Index() {
       }
     };
 
-    if (accessToken) {
-      fetchOficiais();
-    }
+    fetchOficiais();
 
     const onFocus = () => {
-      if (accessToken) {
-        setTimeout(() => {
-          fetchOficiais();
-        }, 500);
-      }
+      setTimeout(() => {
+        fetchOficiais();
+      }, 500);
     };
 
     window.addEventListener("focus", onFocus);
